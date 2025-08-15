@@ -32,7 +32,13 @@ const TaskEditor = () => {
       return;
     }
     void taskGet(slugs[0])
-      .then(reset)
+      .then((data) => {
+        if (data) {
+          reset(data);
+        } else {
+          router.push("/");
+        }
+      })
       .finally(() => isLoadingSet(false));
   }, [slugs]);
   const onSubmit = async (data: OUTask) => {

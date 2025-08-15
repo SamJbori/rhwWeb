@@ -6,35 +6,46 @@ export const taskGet = async (id: string) =>
     next: { revalidate: 3, tags: ["task"] }, // I hate constant refreshers
     method: "GET",
     headers: { "x-nooro-token": env.NEXT_PUBLIC_AUTH_TOKEN },
-  }).then(async (r) => {
-    if (!r.ok) {
-      throw new Error(`HTTP error! Status: ${r.status}`);
-    }
-    return (await r.json()) as OTask;
-  });
+  })
+    .then(async (r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP error! Status: ${r.status}`);
+      }
+      return (await r.json()) as OTask;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 
 export const tasksGet = async () =>
   await fetch(`${env.NEXT_PUBLIC_API_EP}/task`, {
     next: { revalidate: 3, tags: ["task"] }, // I hate constant refreshers
     method: "GET",
     headers: { "x-nooro-token": env.NEXT_PUBLIC_AUTH_TOKEN },
-  }).then(async (r) => {
-    if (!r.ok) {
-      throw new Error(`HTTP error! Status: ${r.status}`);
-    }
-    return (await r.json()) as OTask[];
-  });
+  })
+    .then(async (r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP error! Status: ${r.status}`);
+      }
+      return (await r.json()) as OTask[];
+    })
+    .catch((e) => {
+      console.log(e);
+      return [];
+    });
 
 export const taskDelete = async (id: string) =>
   await fetch(`${env.NEXT_PUBLIC_API_EP}/task/${id}`, {
     method: "DELETE",
     headers: { "x-nooro-token": env.NEXT_PUBLIC_AUTH_TOKEN },
-  }).then(async (r) => {
-    if (!r.ok) {
-      throw new Error(`HTTP error! Status: ${r.status}`);
-    }
-    return true;
-  });
+  })
+    .then(async (r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP error! Status: ${r.status}`);
+      }
+      return true;
+    })
+    .catch((e) => console.log(e));
 
 export const taskEdit = async (id: string, task: Partial<ONTask>) => {
   // No News is an Ignored News!
@@ -47,12 +58,14 @@ export const taskEdit = async (id: string, task: Partial<ONTask>) => {
       "x-nooro-token": env.NEXT_PUBLIC_AUTH_TOKEN,
     },
     body: JSON.stringify(task),
-  }).then(async (r) => {
-    if (!r.ok) {
-      throw new Error(`HTTP error! Status: ${r.status}`);
-    }
-    return true;
-  });
+  })
+    .then(async (r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP error! Status: ${r.status}`);
+      }
+      return true;
+    })
+    .catch((e) => console.log(e));
 };
 
 export const taskCreate = async (task: ONTask) =>
@@ -63,9 +76,11 @@ export const taskCreate = async (task: ONTask) =>
       "x-nooro-token": env.NEXT_PUBLIC_AUTH_TOKEN,
     },
     body: JSON.stringify(task),
-  }).then(async (r) => {
-    if (!r.ok) {
-      throw new Error(`HTTP error! Status: ${r.status}`);
-    }
-    return true;
-  });
+  })
+    .then(async (r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP error! Status: ${r.status}`);
+      }
+      return true;
+    })
+    .catch((e) => console.log(e));
